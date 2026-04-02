@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KASIR TRIJAYA ACCU - CLEAN</title>
+    <title>TRIJAYA ACCU - PRINTER COMPATIBLE</title>
     <style>
         :root { --bg: #f0f2f5; --aksen: #2d3436; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); padding: 15px; margin: 0; }
+        body { font-family: sans-serif; background: var(--bg); padding: 15px; margin: 0; }
         .card { background: white; padding: 20px; border-radius: 15px; max-width: 450px; margin: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         .header { text-align: center; border-bottom: 3px solid var(--aksen); padding-bottom: 10px; margin-bottom: 20px; }
         label { display: block; margin-top: 12px; font-weight: bold; font-size: 13px; color: #555; }
         select, input { width: 100%; padding: 12px; margin-top: 5px; border: 2px solid #eee; border-radius: 10px; box-sizing: border-box; font-size: 16px; outline: none; }
         .item-tambah { background: #f1f2f6; padding: 10px; border-radius: 10px; margin-top: 10px; border-left: 5px solid #0984e3; }
-        .total-box { background: #fff5f5; padding: 15px; border-radius: 10px; margin-top: 20px; text-align: center; border: 2px dashed #ff7675; }
-        .total-val { font-size: 30px; font-weight: 900; color: #d63031; }
+        .total-box { background: #eee; padding: 15px; border-radius: 10px; margin-top: 20px; text-align: center; border: 2px solid #2d3436; }
+        .total-val { font-size: 30px; font-weight: 900; }
         button { width: 100%; padding: 16px; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
         .btn-next { background: #0984e3; color: white; }
         .btn-print { background: #2d3436; color: white; margin-top: 20px; height: 60px; font-size: 18px; }
@@ -23,8 +23,8 @@
 
 <div class="card">
     <div class="header">
-        <h2 style="margin:0">TRIJAYA ACCU</h2>
-        <div style="font-size:11px; font-weight:900;">NOTA TEKS BERSIH</div>
+        <h1 style="margin:0">TRIJAYA ACCU</h1>
+        <div style="font-size:11px;">NOTA PRINTER THERMAL</div>
     </div>
 
     <label>PILIH MERK AKI</label>
@@ -43,16 +43,14 @@
         <option value="ITOBATT">ITOBATT</option>
         <option value="MPOWER">MPOWER</option>
         <option value="MASSIV">MASSIV</option>
+        <option value="DELKOR">DELKOR</option>
         <option value="ROCKET">ROCKET</option>
-        <option value="PANASONIC">PANASONIC</option>
     </select>
 
     <label>TIPE AKI</label>
-    <input list="tipe-list" id="tipe" placeholder="NS40, NS60, N70...">
+    <input list="tipe-list" id="tipe" placeholder="NS40, NS60, N70, dll...">
     <datalist id="tipe-list">
-        <option value="GTZ5S"> <option value="YTZ5S"> <option value="GTZ6V"> <option value="GM5Z">
-        <option value="NS40"> <option value="NS60"> <option value="N50"> <option value="NS70">
-        <option value="N70"> <option value="N100"> <option value="N120"> <option value="N150"> <option value="N200">
+        <option value="GTZ5S"> <option value="YTZ5S"> <option value="NS40"> <option value="NS60"> <option value="N50"> <option value="N70">
     </datalist>
 
     <label>HARGA AKI (Rp)</label>
@@ -62,13 +60,13 @@
     <input type="number" id="pot" value="0" oninput="hitungTotal()">
 
     <div id="container-tambahan"></div>
-    <button class="btn-next" onclick="tambahInput()">+ NEXT (TAMBAH JASA / BARANG)</button>
+    <button class="btn-next" onclick="tambahInput()">+ NEXT (TAMBAH BARANG LAIN)</button>
 
     <div class="total-box">
         <div class="total-val" id="totalDisplay">Rp 0</div>
     </div>
 
-    <button class="btn-print" onclick="shareNotaTeks()">CETAK NOTA (SHARE)</button>
+    <button class="btn-print" onclick="shareNota()">CETAK NOTA (SHARE)</button>
 </div>
 
 <script>
@@ -80,7 +78,7 @@
         div.className = 'item-tambah';
         div.innerHTML = `
             <label>NAMA BARANG / JASA</label>
-            <input type="text" id="n_t_${jumlahTambahan}" placeholder="Misal: Air Aki / Jasa Pasang">
+            <input type="text" id="n_t_${jumlahTambahan}" placeholder="Contoh: Air Aki">
             <label>HARGA (Rp)</label>
             <input type="number" id="h_t_${jumlahTambahan}" placeholder="0" oninput="hitungTotal()">
         `;
@@ -92,79 +90,72 @@
         let pTT = parseInt(document.getElementById('pot').value) || 0;
         let total = hAki - pTT;
         for (let i = 1; i <= jumlahTambahan; i++) {
-            total += parseInt(document.getElementById(`h_t_${i}`).value) || 0;
+            total += (parseInt(document.getElementById(`h_t_${i}`).value) || 0);
         }
         document.getElementById('totalDisplay').innerText = "Rp " + total.toLocaleString('id-ID');
     }
 
-    // Fungsi Teks Tebal (Tanpa Kutip)
-    function keTebal(teks) {
-        const map = { 'A':'𝗔','B':'𝗕','C':'𝗖','D':'𝗗','E':'𝗘','F':'𝗙','G':'𝗚','H':'𝗛','I':'𝗜','J':'𝗝','K':'𝗞','L':'𝗟','M':'𝗠','N':'𝗡','O':'𝗢','P':'𝗣','Q':'𝗤','R':'𝗥','S':'𝗦','T':'𝗧','U':'𝗨','V':'𝗩','W':'𝗪','X':'𝗫','Y':'𝗬','Z':'𝗭','a':'𝗮','b':'𝗯','c':'𝗰','d':'𝗱','e':'𝗲','f':'𝗳','g':'𝗴','h':'𝗵','i':'𝗶','j':'𝗷','k':'𝗸','l':'𝗹','m':'𝗺','n':'𝗻','o':'𝗼','p':'𝗽','q':'𝗾','r':'𝗿','s':'𝘀','t':'𝘁','u':'𝘂','v':'𝘃','w':'𝘄','x':'𝘅','y':'𝘆','z':'𝘇','0':'𝟬','1':'𝟭','2':'𝟮','3':'𝟯','4':'𝟰','5':'𝟱','6':'𝟲','7':'𝟳','8':'𝟴','9':'𝟵',' ':' ' };
-        return teks.split('').map(c => map[c] || c).join('');
-    }
-
-    function r(l, v, w = 30) {
+    function r(l, v, w = 32) {
         let space = w - l.length - v.length;
         return l + " ".repeat(Math.max(1, space)) + v;
     }
 
-    function c(t, w = 30) {
+    function c(t, w = 32) {
         let space = Math.floor((w - t.length) / 2);
         return " ".repeat(Math.max(0, space)) + t;
     }
 
-    function shareNotaTeks() {
+    function shareNota() {
         const m = document.getElementById('merk').value;
         const tp = document.getElementById('tipe').value;
         const hAki = parseInt(document.getElementById('harga_aki').value) || 0;
         const pTT = parseInt(document.getElementById('pot').value) || 0;
         const tgl = new Date().toLocaleDateString('id-ID');
 
-        // JUDUL GEDE ATAS BAWAH (TEBAL & BERSIH)
-        let j1 = c("𝗧 𝗥 𝗜 𝗝 𝗔 𝗬 𝗔");
-        let j2 = c("𝗔 𝗖 𝗖 𝗨");
+        // JUDUL TANPA SIMBOL (SUPAYA PASTI KELUAR DI PRINTER)
+        let j1 = c("T R I J A Y A");
+        let j2 = c("A C C U");
+        let garis = "================================";
 
-        let garis = "------------------------------";
         let nota = j1 + "\n" + j2 + "\n" + 
-                   c(keTebal("TUKAR TAMBAH ACCU")) + "\n" +
-                   c(keTebal("WA: 0821-4320-2129")) + "\n" + garis + "\n";
+                   c("TUKAR TAMBAH ACCU") + "\n" +
+                   c("WA: 0821-4320-2129") + "\n" + garis + "\n";
 
-        nota += keTebal(r("Tanggal", tgl)) + "\n" + garis + "\n";
+        nota += r("TANGGAL", tgl) + "\n" + garis + "\n";
 
         if (m !== "") {
-            nota += keTebal(r("Merk", m)) + "\n";
-            if (tp) nota += keTebal(r("Tipe", tp)) + "\n";
-            if (hAki > 0) nota += keTebal(r("Harga", "Rp" + hAki.toLocaleString('id-ID'))) + "\n";
-            if (pTT > 0) nota += keTebal(r("Pot.TT", "-Rp" + pTT.toLocaleString('id-ID'))) + "\n";
-            nota += garis + "\n";
+            nota += r("MERK", m) + "\n";
+            if (tp) nota += r("TIPE", tp) + "\n";
+            if (hAki > 0) nota += r("HARGA", "RP " + hAki.toLocaleString('id-ID')) + "\n";
+            if (pTT > 0) nota += r("POT. TT", "-RP " + pTT.toLocaleString('id-ID')) + "\n";
         }
 
         let totalFinal = hAki - pTT;
         for (let i = 1; i <= jumlahTambahan; i++) {
-            let n = document.getElementById(`n_t_${i}`).value;
+            let n = document.getElementById(`n_t_${i}`).value.toUpperCase();
             let h = parseInt(document.getElementById(`h_t_${i}`).value) || 0;
             if (n !== "" && h > 0) {
-                nota += keTebal(r(n.substring(0, 15), "Rp" + h.toLocaleString('id-ID'))) + "\n";
+                nota += r(n.substring(0, 15), "RP " + h.toLocaleString('id-ID')) + "\n";
                 totalFinal += h;
             }
         }
 
         nota += garis + "\n" + 
-                keTebal(r("TOTAL", "Rp" + totalFinal.toLocaleString('id-ID'))) + "\n" + 
+                r("TOTAL AKHIR", "RP " + totalFinal.toLocaleString('id-ID')) + "\n" + 
                 garis + "\n";
 
         if (m !== "") {
             let gr = (m === "GS ASTRA") ? "1 BULAN" : 
                      (m === "FB" || m === "SOLITE" || m === "JAP") ? "12 BULAN" : "3 BULAN";
-            nota += c(keTebal("Garansi: " + gr)) + "\n";
+            nota += c("GARANSI: " + gr) + "\n";
         }
 
-        nota += c(keTebal("*** TERIMA KASIH ***"));
+        nota += "\n" + c("TERIMA KASIH") + "\n\n\n";
 
         if (navigator.share) {
-            navigator.share({ text: nota });
+            navigator.share({ title: 'Nota Trijaya', text: nota });
         } else {
-            alert("Gunakan Chrome di Android!");
+            alert("Sistem Share Tidak Ada!");
         }
     }
 </script>
