@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TRIJAYA ACCU - PRINTER COMPATIBLE</title>
+    <title>TRIJAYA ACCU - FIX BRI</title>
     <style>
         :root { --bg: #f0f2f5; --aksen: #2d3436; }
         body { font-family: sans-serif; background: var(--bg); padding: 15px; margin: 0; }
@@ -98,7 +98,6 @@
         document.getElementById('totalDisplay').innerText = "Rp " + total.toLocaleString('id-ID');
     }
 
-    // Fungsi perlebar judul (T R I J A Y A)
     function perlebar(teks) {
         return teks.split('').join(' ').toUpperCase();
     }
@@ -159,13 +158,19 @@
             nota += c("GARANSI: " + gr) + "\n";
         }
 
-        nota += "\n" + c("TERIMA KASIH") + "\n\n\n\n";
+        nota += c("TERIMA KASIH") + "\n" + garis + "\n";
+        nota += c("NO REK BRI:") + "\n";
+        nota += c("32060026372539") + "\n\n\n\n";
 
-        // FIX: Bagian navigator share yang tadinya kepotong
         if (navigator.share) {
-            navigator.share({ title: 'Nota Trijaya', text: nota });
+            navigator.share({
+                title: 'Nota Trijaya Accu',
+                text: nota
+            }).catch(err => {
+                alert("Gagal Membuka Printer!");
+            });
         } else {
-            alert("Sistem Share Tidak Ada!");
+            alert("Sistem Share Tidak Tersedia!");
         }
     }
 </script>
