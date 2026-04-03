@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TRIJAYA ACCU - BIG & SPACED</title>
+    <title>TRIJAYA ACCU - IRIT KERTAST</title>
     <style>
         :root { --bg: #f0f2f5; --aksen: #2d3436; }
         body { font-family: sans-serif; background: var(--bg); padding: 15px; margin: 0; }
@@ -69,7 +69,7 @@
         <div class="total-val" id="totalDisplay">Rp 0</div>
     </div>
 
-    <button class="btn-print" onclick="shareNota()">CETAK NOTA GEDE</button>
+    <button class="btn-print" onclick="shareNota()">CETAK NOTA (IRIT)</button>
 </div>
 
 <script>
@@ -127,14 +127,14 @@
                    c("TUKAR TAMBAH ACCU") + "\n" +
                    c("WA: 0821-4320-2129") + "\n" + garis + "\n";
 
-        nota += r("TANGGAL", tgl) + "\n" + garis + "\n\n"; // Double Enter setelah garis tanggal
+        nota += r("TANGGAL", tgl) + "\n" + garis + "\n"; // Sudah irit
 
-        // BAGIAN TENGAH (SETIAP BARIS DIKASIH ENTER)
+        // BAGIAN TENGAH (SATU KALI ENTER SAJA)
         if (m !== "") {
-            nota += r("MERK", m.toUpperCase()) + "\n\n";
-            if (tp) nota += r("TIPE", tp.toUpperCase()) + "\n\n";
-            if (hAki > 0) nota += r("HARGA", "RP " + hAki.toLocaleString('id-ID')) + "\n\n";
-            if (pTT > 0) nota += r("POT. TT", "-RP " + pTT.toLocaleString('id-ID')) + "\n\n";
+            nota += r("MERK", m.toUpperCase()) + "\n";
+            if (tp) nota += r("TIPE", tp.toUpperCase()) + "\n";
+            if (hAki > 0) nota += r("HARGA", "RP " + hAki.toLocaleString('id-ID')) + "\n";
+            if (pTT > 0) nota += r("POT. TT", "-RP " + pTT.toLocaleString('id-ID')) + "\n";
         }
 
         let totalFinal = hAki - pTT;
@@ -142,14 +142,14 @@
             let n = document.getElementById(`n_t_${i}`).value.toUpperCase();
             let h = parseInt(document.getElementById(`h_t_${i}`).value) || 0;
             if (n !== "" && h > 0) {
-                nota += r(n.substring(0, 15), "RP " + h.toLocaleString('id-ID')) + "\n\n";
+                nota += r(n.substring(0, 15), "RP " + h.toLocaleString('id-ID')) + "\n";
                 totalFinal += h;
             }
         }
 
         nota += garis + "\n" + 
                 r("TOTAL AKHIR", "RP " + totalFinal.toLocaleString('id-ID')) + "\n" + 
-                garis + "\n\n";
+                garis + "\n";
 
         if (m !== "") {
             let gr = (m === "GS") ? "1 BULAN" : 
@@ -157,7 +157,7 @@
             nota += c("GARANSI: " + gr) + "\n";
         }
 
-        nota += "\n" + c("TERIMA KASIH") + "\n\n\n\n";
+        nota += c("TERIMA KASIH") + "\n\n\n"; // 3 Enter di akhir biar gampang sobek
 
         if (navigator.share) {
             navigator.share({ title: 'Nota Trijaya', text: nota });
