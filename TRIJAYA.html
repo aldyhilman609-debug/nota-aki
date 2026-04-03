@@ -24,7 +24,7 @@
 <div class="card">
     <div class="header">
         <h1 style="margin:0">TRIJAYA ACCU</h1>
-        <div style="font-size:11px;">NOTA PRINTER THERMAL</div>
+        <div style="font-size:11px; font-weight: bold;">NOTA PRINTER THERMAL</div>
     </div>
 
     <label>PILIH MERK AKI</label>
@@ -44,10 +44,10 @@
         <option value="MSB">MSB</option>
         <option value="KRP">KRP</option>
         <option value="MASSIV">MASSIV</option>
-       <option value="NAGOYA">NAGOYA</option>
-       <option value="SOLANA">SOLANA</option>
-       <option value="JB">JB</option>
-       <option value="KAYABA">KAYABA</option>
+        <option value="NAGOYA">NAGOYA</option>
+        <option value="SOLANA">SOLANA</option>
+        <option value="JB">JB</option>
+        <option value="KAYABA">KAYABA</option>
     </select>
 
     <label>TIPE AKI</label>
@@ -98,6 +98,11 @@
         document.getElementById('totalDisplay').innerText = "Rp " + total.toLocaleString('id-ID');
     }
 
+    // Fungsi perlebar judul (T R I J A Y A)
+    function perlebar(teks) {
+        return teks.split('').join(' ').toUpperCase();
+    }
+
     function r(l, v, w = 32) {
         let space = w - l.length - v.length;
         return l + " ".repeat(Math.max(1, space)) + v;
@@ -115,22 +120,21 @@
         const pTT = parseInt(document.getElementById('pot').value) || 0;
         const tgl = new Date().toLocaleDateString('id-ID');
 
-        // JUDUL TANPA SIMBOL (SUPAYA PASTI KELUAR DI PRINTER)
-        let j1 = c("T R I J A Y A");
-        let j2 = c("A C C U");
+        let j1 = c(perlebar("TRIJAYA"));
+        let j2 = c(perlebar("ACCU"));
         let garis = "================================";
 
-        let nota = j1 + "\n" + j2 + "\n" + 
+        let nota = "\n" + j1 + "\n" + j2 + "\n" + 
                    c("TUKAR TAMBAH ACCU") + "\n" +
-                   c("jl.hos cokroaminoto no 35") + "\n" +
-                   c("tulungrejo pare kediri") + "\n" +
+                   c("JL.HOS COKROAMINOTO NO 35") + "\n" +
+                   c("TULUNGREJO PARE KEDIRI") + "\n" +
                    c("WA: 0821-4320-2129") + "\n" + garis + "\n";
 
         nota += r("TANGGAL", tgl) + "\n" + garis + "\n";
 
         if (m !== "") {
-            nota += r("MERK", m) + "\n";
-            if (tp) nota += r("TIPE", tp) + "\n";
+            nota += r("MERK", m.toUpperCase()) + "\n";
+            if (tp) nota += r("TIPE", tp.toUpperCase()) + "\n";
             if (hAki > 0) nota += r("HARGA", "RP " + hAki.toLocaleString('id-ID')) + "\n";
             if (pTT > 0) nota += r("POT. TT", "-RP " + pTT.toLocaleString('id-ID')) + "\n";
         }
@@ -150,16 +154,16 @@
                 garis + "\n";
 
         if (m !== "") {
-            let gr = (m === "GS ASTRA") ? "1 BULAN" : 
+            let gr = (m === "GS") ? "1 BULAN" : 
                      (m === "FB" || m === "SOLITE" || m === "JAP") ? "12 BULAN" : "3 BULAN";
             nota += c("GARANSI: " + gr) + "\n";
         }
 
-        nota += "\n" + c("TERIMA KASIH") + "\n\n\n";
+        nota += "\n" + c("TERIMA KASIH") + "\n\n\n\n";
 
+        // FIX: Bagian navigator share yang tadinya kepotong
         if (navigator.share) {
-            na
-vigator.share({ title: 'Nota Trijaya', text: nota });
+            navigator.share({ title: 'Nota Trijaya', text: nota });
         } else {
             alert("Sistem Share Tidak Ada!");
         }
