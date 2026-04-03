@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TRIJAYA ACCU - PRINTER COMPATIBLE</title>
+    <title>TRIJAYA ACCU - BIG & SPACED</title>
     <style>
         :root { --bg: #f0f2f5; --aksen: #2d3436; }
         body { font-family: sans-serif; background: var(--bg); padding: 15px; margin: 0; }
         .card { background: white; padding: 20px; border-radius: 15px; max-width: 450px; margin: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .header { text-align: center; border-bottom: 3px solid var(--aksen); padding-bottom: 10px; margin-bottom: 20px; }
-        label { display: block; margin-top: 12px; font-weight: bold; font-size: 13px; color: #555; }
-        select, input { width: 100%; padding: 12px; margin-top: 5px; border: 2px solid #eee; border-radius: 10px; box-sizing: border-box; font-size: 16px; outline: none; }
+        .header { text-align: center; border-bottom: 4px solid var(--aksen); padding-bottom: 10px; margin-bottom: 20px; }
+        label { display: block; margin-top: 12px; font-weight: bold; font-size: 14px; color: #333; }
+        select, input { width: 100%; padding: 14px; margin-top: 5px; border: 2px solid #ccc; border-radius: 10px; box-sizing: border-box; font-size: 16px; outline: none; }
         .item-tambah { background: #f1f2f6; padding: 10px; border-radius: 10px; margin-top: 10px; border-left: 5px solid #0984e3; }
         .total-box { background: #eee; padding: 15px; border-radius: 10px; margin-top: 20px; text-align: center; border: 2px solid #2d3436; }
         .total-val { font-size: 30px; font-weight: 900; }
@@ -24,13 +24,13 @@
 <div class="card">
     <div class="header">
         <h1 style="margin:0">TRIJAYA ACCU</h1>
-        <div style="font-size:11px;">NOTA PRINTER THERMAL</div>
+        <div style="font-size:11px; font-weight: bold;">KASIR DIGITAL</div>
     </div>
 
     <label>PILIH MERK AKI</label>
     <select id="merk" onchange="hitungTotal()">
         <option value="">-- TANPA AKI --</option>
-        <option value="GS ASTRA">GS ASTRA</option>
+        <option value="GS">GS</option>
         <option value="AMARON">AMARON</option>
         <option value="YUASA">YUASA</option>
         <option value="INCOE">INCOE</option>
@@ -41,10 +41,13 @@
         <option value="FASTER">FASTER</option>
         <option value="QS">QS</option>
         <option value="ITOBATT">ITOBATT</option>
-        <option value="MPOWER">MPOWER</option>
+        <option value="MSB">MSB</option>
+        <option value="KRP">KRP</option>
         <option value="MASSIV">MASSIV</option>
-        <option value="DELKOR">DELKOR</option>
-        <option value="ROCKET">ROCKET</option>
+        <option value="NAGOYA">NAGOYA</option>
+        <option value="SOLANA">SOLANA</option>
+        <option value="JB">JB</option>
+        <option value="KAYABA">KAYABA</option>
     </select>
 
     <label>TIPE AKI</label>
@@ -66,7 +69,7 @@
         <div class="total-val" id="totalDisplay">Rp 0</div>
     </div>
 
-    <button class="btn-print" onclick="shareNota()">CETAK NOTA (SHARE)</button>
+    <button class="btn-print" onclick="shareNota()">CETAK NOTA GEDE</button>
 </div>
 
 <script>
@@ -95,6 +98,10 @@
         document.getElementById('totalDisplay').innerText = "Rp " + total.toLocaleString('id-ID');
     }
 
+    function perlebar(teks) {
+        return teks.split('').join(' ').toUpperCase();
+    }
+
     function r(l, v, w = 32) {
         let space = w - l.length - v.length;
         return l + " ".repeat(Math.max(1, space)) + v;
@@ -112,22 +119,22 @@
         const pTT = parseInt(document.getElementById('pot').value) || 0;
         const tgl = new Date().toLocaleDateString('id-ID');
 
-        // JUDUL TANPA SIMBOL (SUPAYA PASTI KELUAR DI PRINTER)
-        let j1 = c("T R I J A Y A");
-        let j2 = c("A C C U");
+        let j1 = c(perlebar("TRIJAYA"));
+        let j2 = c(perlebar("ACCU"));
         let garis = "================================";
 
-        let nota = j1 + "\n" + j2 + "\n" + 
+        let nota = "\n" + j1 + "\n" + j2 + "\n" + 
                    c("TUKAR TAMBAH ACCU") + "\n" +
                    c("WA: 0821-4320-2129") + "\n" + garis + "\n";
 
-        nota += r("TANGGAL", tgl) + "\n" + garis + "\n";
+        nota += r("TANGGAL", tgl) + "\n" + garis + "\n\n"; // Double Enter setelah garis tanggal
 
+        // BAGIAN TENGAH (SETIAP BARIS DIKASIH ENTER)
         if (m !== "") {
-            nota += r("MERK", m) + "\n";
-            if (tp) nota += r("TIPE", tp) + "\n";
-            if (hAki > 0) nota += r("HARGA", "RP " + hAki.toLocaleString('id-ID')) + "\n";
-            if (pTT > 0) nota += r("POT. TT", "-RP " + pTT.toLocaleString('id-ID')) + "\n";
+            nota += r("MERK", m.toUpperCase()) + "\n\n";
+            if (tp) nota += r("TIPE", tp.toUpperCase()) + "\n\n";
+            if (hAki > 0) nota += r("HARGA", "RP " + hAki.toLocaleString('id-ID')) + "\n\n";
+            if (pTT > 0) nota += r("POT. TT", "-RP " + pTT.toLocaleString('id-ID')) + "\n\n";
         }
 
         let totalFinal = hAki - pTT;
@@ -135,22 +142,22 @@
             let n = document.getElementById(`n_t_${i}`).value.toUpperCase();
             let h = parseInt(document.getElementById(`h_t_${i}`).value) || 0;
             if (n !== "" && h > 0) {
-                nota += r(n.substring(0, 15), "RP " + h.toLocaleString('id-ID')) + "\n";
+                nota += r(n.substring(0, 15), "RP " + h.toLocaleString('id-ID')) + "\n\n";
                 totalFinal += h;
             }
         }
 
         nota += garis + "\n" + 
                 r("TOTAL AKHIR", "RP " + totalFinal.toLocaleString('id-ID')) + "\n" + 
-                garis + "\n";
+                garis + "\n\n";
 
         if (m !== "") {
-            let gr = (m === "GS ASTRA") ? "1 BULAN" : 
+            let gr = (m === "GS") ? "1 BULAN" : 
                      (m === "FB" || m === "SOLITE" || m === "JAP") ? "12 BULAN" : "3 BULAN";
             nota += c("GARANSI: " + gr) + "\n";
         }
 
-        nota += "\n" + c("TERIMA KASIH") + "\n\n\n";
+        nota += "\n" + c("TERIMA KASIH") + "\n\n\n\n";
 
         if (navigator.share) {
             navigator.share({ title: 'Nota Trijaya', text: nota });
